@@ -1,0 +1,467 @@
+ 
+
+[                    ]
+current community
+
+  • help chat
+     
+    TeX - LaTeX
+  • 
+     
+    TeX - LaTeX Meta
+
+your communities
+
+Sign up or log in to customize your list.
+
+more stack exchange communities
+
+company blog
+
+  • Tour Start here for a quick overview of the site
+  • Help Center Detailed answers to any questions you might have
+  • Meta Discuss the workings and policies of this site
+  • About Us Learn more about Stack Overflow the company
+  • Business Learn more about hiring developers or posting ads with us
+
+ 1.  
+ 2.  
+
+Log In Sign Up
+
+TeX - LaTeX
+
+  • Questions
+  • Tags
+  • Users
+  • Badges
+  • Unanswered
+
+  • Ask Question
+
+_
+TeX - LaTeX Stack Exchange is a question and answer site for users of TeX,
+LaTeX, ConTeXt, and related typesetting systems. Join them; it only takes a
+minute:
+
+Sign up
+Here's how it works:
+
+ 1. Anybody can ask a question
+ 2. Anybody can answer
+ 3. The best answers are voted up and rise to the top
+
+How to create equi-distant nodes on a spiral with TikZ?
+
+          I have borrowed the following code to draw a spiral using one of the
+          existing posts in TEX.SE.
+
+          \begin{tikzpicture}
+          \draw [domain=0:25.1327,variable=\t,smooth,samples=55]
+              plot[mark=*,mark options={fill=white}] ({\t r}: {0.002*\t*\t});
+          \end{tikzpicture}
+
+          enter image description here
+
+          As seen, nodes in the resulting spiral get closer and closer as they
+up vote 7 approach the center. What I'd like to have is to specify a set of
+down vote nodes on the spiral that are equally distant from their adjacent
+favorite  ones. That is, they do not get closer to each other towards the
+2         center as in the figure above. The resulting spiral can be assumed as
+          an approximation of the existing one which of course would no longer
+          be looking smooth.
+
+          tikz-pgf
+
+                                      asked Jun 24 '13 at 22:44
+                                       
+          share|improve this question [2aa]
+                                      Ali
+                                      8441818
+
+          
+          5   Like this? – Tom Bombadil Jun 24 '13 at 23:06
+
+              Which distance is meant? The one as in the TeXample linked by Tom
+          1   Bombadil and Jake’s answer (direct straight line) or along the
+              path? – Qrrbrbirlbel Jun 25 '13 at 1:41
+
+          add a comment |   
+
+2 Answers 2
+
+active oldest votes
+
+         If you don't need to reproduce your existing spiral exactly, you can use a
+         path with a constant segment length and a corner angle that increases with
+         the square root of the distance:
+
+         [v4i1V]
+
+         \documentclass[border=5mm]{standalone}
+
+         \usepackage{tikz}
+
+         \begin{document}
+         \begin{tikzpicture}
+
+up vote  \draw  (0,0) \foreach \t in {0.1,0.2,...,3}{
+4 down     -- ++({sqrt(\t)*700}:0.4cm)
+vote     };
+accepted \draw [fill=white] circle [radius=1pt] (0,0) \foreach \t in {0.1,0.2,...,3}{
+            ++({sqrt(\t)*700}:0.4cm) circle [radius=1pt]
+         };
+
+         \end{tikzpicture}
+
+
+         \end{document}
+
+                                   answered Jun 25 '13 at 1:34
+                                                              
+         share|improve this answer                       [qMt]
+                                                          Jake
+                                                  182k21587719
+
+         
+              Based on your statement "a corner angle that increases with the square
+              root of the distance" and your defined \t variable, I think \t does not
+              represent any geometrical distance. What do you think of it? – kiss my
+              armpit Jun 25 '13 at 2:03
+              @mozartstraße: \t is proportional to the distance travelled along the
+              path, since each segment has the same length (0.4cm). – Jake Jun 25 '13
+              at 2:06
+              Okey. Thank you. – kiss my armpit Jun 25 '13 at 2:11
+
+         add a comment |   
+
+     With PSTricks. Just for fun!
+
+     \documentclass[pstricks,border=12pt]{standalone}
+     \usepackage{multido,pst-node}
+     \begin{document}
+     \begin{pspicture}[showgrid](-5,-5)(5,5)
+     \def\points{}%
+     \multido{\r=0.0+0.1}{90}{\xdef\points{\points(!1 \r\space sqrt 700 mul PtoC)}}
+up   \psset{showpoints,dotstyle=o,dotscale=2}
+vote \rput(-1,0){\expandafter\psrline\points}
+5    \end{pspicture}
+down \end{document}
+vote
+     enter image description here
+
+                                                             answered Jun 25 '13 at
+                                                                               1:18
+     share|improve this answer edited Jun 25 '13 at 1:55                           
+                                                                              [YKH]
+                                                                     kiss my armpit
+                                                                      9,00519144361
+
+     
+     1     it's funny that you're going to have the tikz gold badge before the one
+           for pstricks :) +1 – cmhughes Jun 25 '13 at 3:05
+           @cmhughes: You are a good analyst. Thank you! – kiss my armpit Jun 25 '13
+           at 4:08
+
+     add a comment |   
+
+Your Answer
+
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+[                                                                                            ]
+ 
+draft saved
+draft discarded
+[                    ]
+
+Sign up or log in
+
+Sign up using Google
+
+Sign up using Facebook
+
+Sign up using Email and Password
+
+[Submit]
+
+Post as a guest
+
+Name [                              ]
+Email [                              ]
+
+Post as a guest
+
+Name [                              ]
+Email [                              ]
+
+[Post Your Answer] discard
+
+By posting your answer, you agree to the privacy policy and terms of service.
+
+Not the answer you're looking for? Browse other questions tagged tikz-pgf or 
+ask your own question.
+
+asked  4 years, 4 months ago
+
+viewed 921 times
+
+active 4 years, 4 months ago
+
+Get the weekly newsletter! In it, you'll get:
+
+  • The week's top questions and answers
+  • Important community announcements
+  • Questions that need answers
+
+[Sign up for the newsletter]
+
+see an example newsletter
+
+By subscribing, you agree to the privacy policy and terms of service.
+
+Linked
+
+ 
+13
+Are there any other methods left to create a spiral of equidistant segments?
+
+Related
+
+ 
+3
+TikZ – How to create nodes
+ 
+2
+Exporting TikZ to EPS using MacTex
+ 
+8
+TikZ - drawing multiple lines from the origin to the edge of an *arc*
+ 
+3
+Controlling the orientation of a Tikz decoration markings arrow?
+ 
+6
+Why does the samples option conflict with fp?
+ 
+33
+How to draw points in TikZ?
+ 
+6
+TikZ: Drawing an arc from an intersection to an intersection
+ 
+8
+print double sided playing cards
+ 
+3
+“perpendicular shift” for paths
+ 
+9
+How to save and restore the nodes between tikzpictures?
+
+Hot Network Questions
+
+  • 
+    The Generous Taco stand
+  • 
+    How do I make it so my story happens in an ambiguous time frame?
+  • 
+    How do I tell an executive that I am an engineer not an admin
+  • 
+    Would reusable rockets render the idea of space elevators useless?
+  • 
+    Can I apply a 24v DC current to an analog voltmeter graduated between 8 and
+    16v for a few seconds?
+  • 
+    How do Modrons go rogue?
+  • 
+    Would it be unprofessional not to eat during a team lunch?
+  • 
+    What explanations are there for a rug steadily creeping at about a
+    millimeter/day rate across a room?
+  • 
+    How much should NPCs charge for spells cast as services to PCs?
+  • 
+    How was this weird paper accepted?
+  • 
+    Does currency exist in communism
+  • 
+    Tax implications of BTC for Rent
+  • 
+    Does the title of True Detective have any meaning within the show?
+  • 
+    In a structure, is it legal to use one array field to access another one?
+  • 
+    Have I lost my daughter?
+  • 
+    Java Lambda to comparator conversion - intermediate representation
+  • 
+    Is there any way to post my code on Code Review Stack Exchange and not be
+    worried about plagiarism?
+  • 
+    Why does dandwiki have a poor reputation?
+  • 
+    Can we tamper-proof a game that's sold along with the Windows machine it
+    runs on?
+  • 
+    Is there a word like apathy but with positive moral connotations?
+  • 
+    If page is enabled, show div
+  • 
+    How do I filter out bad students from tutoring?
+  • 
+    Storyteller/creator vs writer
+  • 
+    Employees unhappy with change of workplace
+
+more hot questions
+question feed
+*
+lang-tex
+
+TeX - LaTeX
+
+  • Tour
+  • Help
+  • Chat
+  • Contact
+  • Feedback
+  • Mobile
+
+Company
+
+  • Stack Overflow
+  • Stack Overflow Business
+  • Developer Jobs
+  • About
+  • Press
+  • Legal
+  • Privacy Policy
+
+ 
+
+Stack Exchange
+Network
+
+  • Technology
+  • Life / Arts
+  • Culture / Recreation
+  • Science
+  • Other
+
+  • Stack Overflow
+  • Server Fault
+  • Super User
+  • Web Applications
+  • Ask Ubuntu
+  • Webmasters
+  • Game Development
+
+  • TeX - LaTeX
+  • Software Engineering
+  • Unix & Linux
+  • Ask Different (Apple)
+  • WordPress Development
+  • Geographic Information Systems
+  • Electrical Engineering
+
+  • Android Enthusiasts
+  • Information Security
+  • Database Administrators
+  • Drupal Answers
+  • SharePoint
+  • User Experience
+  • Mathematica
+
+  • Salesforce
+  • ExpressionEngine® Answers
+  • Stack Overflow em Português
+  • Blender
+  • Network Engineering
+  • Cryptography
+  • Code Review
+
+  • Magento
+  • Software Recommendations
+  • Signal Processing
+  • Emacs
+  • Raspberry Pi
+  • Stack Overflow на русском
+  • Programming Puzzles & Code Golf
+
+  • Stack Overflow en español
+  • Ethereum
+  • Data Science
+  • Arduino
+  • Bitcoin
+  • more (26)
+
+  • Photography
+  • Science Fiction & Fantasy
+  • Graphic Design
+  • Movies & TV
+  • Music: Practice & Theory
+  • Worldbuilding
+  • Seasoned Advice (cooking)
+
+  • Home Improvement
+  • Personal Finance & Money
+  • Academia
+  • Law
+  • more (16)
+
+  • English Language & Usage
+  • Skeptics
+  • Mi Yodeya (Judaism)
+  • Travel
+  • Christianity
+  • English Language Learners
+  • Japanese Language
+
+  • Arqade (gaming)
+  • Bicycles
+  • Role-playing Games
+  • Anime & Manga
+  • Puzzling
+  • Motor Vehicle Maintenance & Repair
+  • more (32)
+
+  • MathOverflow
+  • Mathematics
+  • Cross Validated (stats)
+  • Theoretical Computer Science
+  • Physics
+  • Chemistry
+  • Biology
+
+  • Computer Science
+  • Philosophy
+  • more (10)
+
+  • Meta Stack Exchange
+  • Stack Apps
+  • API
+  • Data
+  • Area 51
+
+  • Blog
+  • Facebook
+  • Twitter
+  • LinkedIn
+
+site design / logo © 2017 Stack Exchange Inc; user contributions licensed under
+cc by-sa 3.0 with attribution required. rev 2017.11.2.27618
+
+TeX - LaTeX Stack Exchange works best with JavaScript enabled [p-c1rF4kxg]
