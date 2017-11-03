@@ -1,0 +1,91 @@
+\documentclass[preview, border=5mm]{standalone}
+
+\usepackage[a4paper,margin=10cm]{geometry}
+
+% for the \xintFor***
+\usepackage{xinttools} 
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+
+% playing role of infinity (should be < .25\maxdimen)
+\def\biglen{297cm}
+
+% define the "half plane" to be clipped (#1 = half the distance between cells)
+\tikzset{
+  half plane/.style={ to path={
+       ($(\tikztostart)!.5!(\tikztotarget)!#1!(\tikztotarget)!\biglen!90:(\tikztotarget)$)
+    -- ($(\tikztostart)!.5!(\tikztotarget)!#1!(\tikztotarget)!\biglen!-90:(\tikztotarget)$)
+    -- ([turn]0,2*\biglen) -- ([turn]0,2*\biglen) -- cycle}},
+  half plane/.default={1pt}
+}
+
+% number of random points
+\def\cantidadpuntos{30} 
+% random points are in [-\maxxy,\maxxy]x[-\maxxy,\maxxy]
+\def\maxxy{4}
+
+\begin{document}
+
+  \begin{tikzpicture}
+
+    % generate random points
+    % \pgfmathsetseed{1908}
+
+    \def\puntos{}
+    \xintFor* #1 in {\xintSeq {1}{\cantidadpuntos}} \do{
+      % random x in [-.9\maxxy,.9\maxxy]
+      \pgfmathsetmacro{\ptx}{.9*\maxxy*rand} 
+      % random x in [-.9\maxxy,.9\maxxy]
+      \pgfmathsetmacro{\pty}{.9*\maxxy*rand} 
+      % stock the random point
+      \edef\puntos{\puntos, (\ptx,\pty)} 
+    }
+
+    % draw the points and their cells
+    \xintForpair #1#2 in \puntos \do{
+      \edef\puntoa{#1,#2}
+      \begin{scope}
+        \xintForpair \#3#4 in \puntos \do{
+          \edef\ptb{#3,#4}
+
+          % check if (#1,#2) == (#3,#4) 
+          \ifx\puntoa\ptb\relax 
+            \tikzstyle{myclip}=[];
+          \else
+            \tikzstyle{myclip}=[clip];
+          \fi;
+          \path[myclip] (#3,#4) to[half plane] (#1,#2);
+        }
+        % last clip
+        \clip (-\maxxy,-\maxxy) rectangle (\maxxy,\maxxy); 
+
+        \pgfmathsetmacro{\randhue}{rnd}
+        \definecolor{randcolor}{hsb}{\randhue,.2,.5}
+        % fill the cell with random color
+        \fill[randcolor] (#1,#2) circle (4*\biglen); 
+        % and draw the point
+        % \fill[draw=red,very thick] (#1,#2) circle (1.4pt); 
+      \end{scope}
+    }
+
+    \pgfresetboundingbox
+    \draw (-\maxxy,-\maxxy) rectangle (\maxxy,\maxxy);
+  \end{tikzpicture}
+
+\end{document}
+
+% Source: https://tex.stackexchange.com/questions/138668/how-to-draw-and-paint-the-voronoi-regions-of-a-series-of-points-using-tikz
+
+% Some comments on the code :
+% 
+% • Given two points, A and B, the points that are closer to A is a half plane,
+%   delimited by the perpendicular bisector, and containing A.
+% • So to construct the Voronoi cell of A we can take the intersection of all
+%   this half planes when B runs over all other points (different from A).
+% • In the code, taking this intersection is done by clipping big rectangles
+%   that plays the role of "half planes".
+% • I was not able to use \foreach because clipping inside such a loop is not
+%   available outside the loop (\foreach creates a group). So I'm overcoming
+%   this by using \xintFor.
+% 
