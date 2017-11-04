@@ -21,32 +21,47 @@
   half plane/.default={2pt}
 }
 
-% number of random points
-\def\puntosCantidad{30} 
-
 % random points are in [-\maxX,\maxY]x[-\maxX,\maxY]
 \def\maxX{ 13.85 }
 \def\maxY{\maxX * 1.43}
 
+
+% number of random points
+\def\puntosCantidad{45} 
+\def\paso{8}
+
+\def\radio{9}
+\def\centro{0}
+
 \begin{document}
 
   \begin{tikzpicture}
+    %\draw (-\maxX,0) -- ( \maxX,0 );
+    %\draw (0,-\maxY) -- ( 0,\maxY );
 
-    % generate random points
     % \pgfmathsetseed{1908}
+
+    % Posicionar Puntos
     \def\cuenta{1}
     \def\puntos{}
-    \draw [fill=white] circle [radius=5pt] (0,0) \foreach \t in {1,2,...,\puntosCantidad}{
-         ++( { sqrt( \t ) * 700 } : 2cm ) circle [radius=5pt]
-    };
     \xintFor* #1 in { \xintSeq {1}{\puntosCantidad} } \do{
 
+      \def\grado{ \cuenta  }
+      \edef\cuenta{\cuenta + \paso}
       % random x in [-.9\maxY,.9\maxY]
-		  \pgfmathsetmacro{\puntoX}{ (-\maxX*0.25) + rand } 
+      \pgfmathsetmacro{\puntoX}{
+        \centro 
+        + ( \radio * cos( \grado ) )
+        + ( rand ) 
+      } 
 
       % random x in [-.9\maxY,.9\maxY]
-	  \pgfmathsetmacro{\puntoY}{ \maxY * rand } 
-	  \edef\cuenta{\cuenta + 1}
+      \pgfmathsetmacro{\puntoY}{ 
+        \centro  
+        + ( \radio * sin( \grado ) ) 
+        + (rand )
+      } 
+
       % stock the random point
       \edef\puntos{\puntos, ( \puntoX, \puntoY )} 
     }
@@ -66,16 +81,17 @@
             \tikzstyle{myClip}=[clip ];
           \fi;
           \path [myClip] (#3,#4) to [half plane] (#1,#2);
+          %\draw (#3,#4) -- ( #1,#2 );
         }
         % last clip
         \clip (-\maxX,-\maxY) rectangle (\maxX,\maxY); 
 
         \pgfmathsetmacro{\randSat}{ rnd }
-        \definecolor{randcolor}{hsb}{ .48, \randSat, .7 }
+        \definecolor{randcolor}{hsb}{ .53, .6, \randSat,  }
         % fill the cell with random color
         \fill[randcolor] (#1,#2) circle (14*\bigLen); 
         % and draw the point
-        \fill[draw=white,fill=white] (#1,#2) circle (4pt); 
+        %\fill[draw=white,fill=white] (#1,#2) circle (4pt); 
       \end{scope}
 
     }
