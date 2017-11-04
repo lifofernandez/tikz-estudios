@@ -22,7 +22,7 @@
 }
 
 % number of random points
-\def\puntosCantidad{100} 
+\def\puntosCantidad{30} 
 
 % random points are in [-\maxX,\maxY]x[-\maxX,\maxY]
 \def\maxX{ 13.85 }
@@ -34,14 +34,18 @@
 
     % generate random points
     % \pgfmathsetseed{1908}
+	  \newcounter{count}
+	  \setcounter{count}{1}
+    \def\cuenta{1}
     \def\puntos{}
-    \xintFor* #1 in { \xintSeq {1}{\puntosCantidad} } \do{
+	  \xintFor* #1 in { \xintSeq {1}{\puntosCantidad} } \do{
 
       % random x in [-.9\maxY,.9\maxY]
-      \pgfmathsetmacro{\puntoX}{ \maxX * rand} 
+		  \pgfmathsetmacro{\puntoX}{ (-\maxX*0.25) + rand } 
 
       % random x in [-.9\maxY,.9\maxY]
-      \pgfmathsetmacro{\puntoY}{ \maxY * rand} 
+	  \pgfmathsetmacro{\puntoY}{ \maxY * rand } 
+	  \edef\cuenta{\cuenta + 1}
       % stock the random point
       \edef\puntos{\puntos, ( \puntoX, \puntoY )} 
     }
@@ -58,7 +62,7 @@
           \ifx\puntoA\puntoB\relax 
             \tikzstyle{myClip}=[];
           \else
-            \tikzstyle{myClip}=[clip, rounded corners];
+            \tikzstyle{myClip}=[clip ];
           \fi;
           \path [myClip] (#3,#4) to [half plane] (#1,#2);
         }
@@ -70,26 +74,27 @@
         % fill the cell with random color
         \fill[randcolor] (#1,#2) circle (14*\bigLen); 
         % and draw the point
-        % \fill[draw=red,very thick] (#1,#2) circle (1.4pt); 
+        \fill[draw=white,fill=white] (#1,#2) circle (4pt); 
       \end{scope}
 
     }
 
-    \draw[draw=white,line width=4pt] ({-\maxX + .5},{-\maxY + .5}) rectangle ({\maxX - .5},{\maxY - .5});
+    \draw[draw=white,line width=4pt] 
+	  ({-\maxX + 1},{-\maxY + 1})
+	  rectangle 
+	  ({\maxX - 1},{\maxY - 1});
     \draw[draw=white,draw opacity=.7,line width=1cm] 
 	  ({-\maxX },{-\maxY }) 
 	  rectangle 
 	  ({\maxX },{\maxY });
 
 
-    %spiral
-    %\draw  (0,0) \foreach \t in {1,2,...,\puntosCantidad}{
-    %  -- ++( {sqrt( \t ) * 700} : 2cm )
-    %};
+    \draw  (0,0) \foreach \t in {0.1,0.2,...,\puntosCantidad}{
+      -- ++({sqrt(\t)*700}:2cm)
+    };
     %\draw [fill=white] circle [radius=5pt] (0,0) \foreach \t in {1,2,...,\puntosCantidad}{
     %     ++( { sqrt( \t ) * 700 } : 2cm ) circle [radius=5pt]
     %};
-    %spiral
 
     \pgfresetboundingbox
 	  \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
