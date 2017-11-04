@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.2)  3 NOV 2017 22:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.2)  3 NOV 2017 22:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2288,15 +2288,15 @@ Overfull \hbox (0.39996pt too wide) in paragraph at lines 101--102
 
 ] (./01.aux) ) 
 Here is how much of TeX's memory you used:
- 14069 strings out of 492990
- 285016 string characters out of 6138688
- 541536 words of memory out of 5000000
- 17415 multiletter control sequences out of 15000+600000
+ 13460 strings out of 492990
+ 268609 string characters out of 6138688
+ 496450 words of memory out of 5000000
+ 16806 multiletter control sequences out of 15000+600000
  3942 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,5n,82p,404b,567s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 01.pdf (1 page, 50801 bytes).
+Output written on 01.pdf (1 page, 44943 bytes).
 PDF statistics:
  11 PDF objects out of 1000 (max. 8388607)
  7 compressed objects within 1 object stream

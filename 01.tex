@@ -34,11 +34,12 @@
 
     % generate random points
     % \pgfmathsetseed{1908}
-	  \newcounter{count}
-	  \setcounter{count}{1}
     \def\cuenta{1}
     \def\puntos{}
-	  \xintFor* #1 in { \xintSeq {1}{\puntosCantidad} } \do{
+    \draw [fill=white] circle [radius=5pt] (0,0) \foreach \t in {1,2,...,\puntosCantidad}{
+         ++( { sqrt( \t ) * 700 } : 2cm ) circle [radius=5pt]
+    };
+    \xintFor* #1 in { \xintSeq {1}{\puntosCantidad} } \do{
 
       % random x in [-.9\maxY,.9\maxY]
 		  \pgfmathsetmacro{\puntoX}{ (-\maxX*0.25) + rand } 
@@ -89,9 +90,9 @@
 	  ({\maxX },{\maxY });
 
 
-    \draw  (0,0) \foreach \t in {0.1,0.2,...,\puntosCantidad}{
-      -- ++({sqrt(\t)*700}:2cm)
-    };
+    %\draw  (0,0) \foreach \t in {0.1,0.2,...,10}{
+    %  -- ++({sqrt(\t)*700}:2cm)
+    %};
     %\draw [fill=white] circle [radius=5pt] (0,0) \foreach \t in {1,2,...,\puntosCantidad}{
     %     ++( { sqrt( \t ) * 700 } : 2cm ) circle [radius=5pt]
     %};
