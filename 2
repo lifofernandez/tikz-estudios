@@ -6,7 +6,7 @@
 % for the \xintFor***
 \usepackage{xinttools} 
 \usepackage{tikz}
-\usetikzlibrary{calc,backgrounds}
+\usetikzlibrary{calc}
 \makeatletter
 \newcommand\store[6][\x]{%
   % #1 = dummy variable
@@ -101,31 +101,35 @@
     \def\step{2}
     \foreach \i [evaluate={\ii=int(\i-1);}] in {-\half,...,\half}{
       \foreach \j [evaluate={\jj=int(\j-1);}] in {-\half,...,\half}{
-
-	\pgfmathsetmacro{\radius}{ .25 + rnd / 4 }
+	\pgfmathsetmacro{\radius}{ 2 + rnd / 8 }
 	\pgfmathsetmacro{\angle}{ rand * 180 }
-	\pgfmathsetmacro{\espacio}{ 2 }
+        %\coordinate [shift={(\j,\i)}] (n-\i-\j) at ( \angle : \radius );
 
-        \coordinate [shift={(\j*\espacio,\i*\espacio)}] (n-\i-\j) at ( \angle : \radius );
+	\pgfmathsetmacro{\X}{\i + \radius * cos(\angle) }
+	\pgfmathsetmacro{\Y}{\j + \radius * sin(\angle) }
 
-	\pgfmathsetmacro{\X}{(\i*\espacio) + \radius * cos(\angle) }
-	\pgfmathsetmacro{\Y}{(\j*\espacio) + \radius * sin(\angle) }
-	\xdef\puntos{\puntos, (\X,\Y) } 
+	  \xdef\puntos{\puntos, (
+	      \X, 
+	      \Y
+	    )
+	 } 
 
-          \ifnum\i> -\half
-            \draw [help lines] (n-\i-\j) -- (n-\ii-\j);
-          \fi
-          \ifnum\j>-\half
-            \draw [help lines] (n-\i-\j) -- (n-\i-\jj);
-            \ifnum\i>-\half
-              \pgfmathparse{int(rnd>.5)}
-              \ifnum\pgfmathresult=0
-                \draw [help lines] (n-\i-\j) -- (n-\ii-\jj);
-              \else%
-                \draw [help lines] (n-\ii-\j) -- (n-\i-\jj);
-              \fi%
+        \ifnum \i > -\half
+          \draw (\i,\j) [draw=red,fill=red]-- (\ii,\j);
+        \fi
+        
+        \ifnum \j > -\half
+          \draw (\i,\j) [draw=red,fill=red]-- (\i,\jj);
+          
+    	  \ifnum \i > -\half
+            \pgfmathparse{ int( rnd> .5 )}
+            \ifnum\pgfmathresult=0
+              \draw [draw=red,fill=red](\i,\j) -- (\ii,\jj);
+            \else
+              \draw [draw=red,fill=red](\ii,\j) -- (\i,\jj);
             \fi
           \fi
+        \fi
     
       }
     }
@@ -153,7 +157,7 @@
         % fill the cell with random color
         \fill[randcolor, opacity=.8 ] (#1,#2) circle (14*\bigLen); 
         % and draw the point
-        \fill[draw=white,fill=white] (#1,#2) circle (2pt); 
+        \fill[draw=white,fill=white] (#1,#2) circle (4pt); 
       \end{scope}
 
     }
