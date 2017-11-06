@@ -22,7 +22,15 @@
     }
   },
   half plane/.default={2pt},
-  }
+  conector/.style={
+    to path={
+       (\tikztostart)
+    --(\tikztotarget)
+    -- cycle
+    }
+  },
+  conector/.default={2pt}
+}
 
 % random points are in [-\maxX,\maxY]x[-\maxX,\maxY]
 %\def\maxX{ 13.85 }
@@ -52,7 +60,7 @@
 
       \def\grado{ \cuenta  }
       \edef\cuenta{\cuenta + \paso}
-      % random x in [-.9\maxY,.9\maxY]
+
       \pgfmathsetmacro{\puntoX}{
         \centro 
         + ( \radio * cos( \grado ) )
@@ -70,6 +78,39 @@
       \edef\puntos{\puntos, ( \puntoX, \puntoY )} 
     }
 
+   \foreach \i [evaluate={\ii=int(\i-1);}] in {0,...,10}{
+      \foreach \j [evaluate={\jj=int(\j-1);}] in {0,...,10}{
+        \coordinate [shift={(\j,\i)}] (n-\i-\j) at (rand*180:1/4+rnd/8);
+%		\pgfmathsetmacro{\puntoX}{
+%		        \i
+%		} 
+%
+%		\pgfmathsetmacro{\puntoY}{ 
+%		    \j
+%		} 
+%
+%		% stock the random point
+%		\edef\puntos{\puntos, ( \puntoX, \puntoY )} 
+    
+        \ifnum\i>0
+          \draw [help lines] (n-\i-\j) -- (n-\ii-\j);
+        \fi
+        
+        \ifnum\j>0
+          \draw [help lines] (n-\i-\j) -- (n-\i-\jj);
+          
+    	  \ifnum\i>0
+            \pgfmathparse{int(rnd>.5)}
+            \ifnum\pgfmathresult=0
+              \draw [help lines] (n-\i-\j) -- (n-\ii-\jj);
+            \else
+              \draw [help lines] (n-\ii-\j) -- (n-\i-\jj);
+            \fi
+          \fi
+        \fi
+    
+      }
+    }
     % draw the points and their cells
     \xintForpair #1#2 in \puntos \do{
       \edef\puntoA{#1,#2}
@@ -81,10 +122,13 @@
           % check if (#1,#2) == (#3,#4) 
           \ifx\puntoA\puntoB\relax 
             \tikzstyle{myClip}=[];
+            \tikzstyle{myClip2}=[];
           \else
             \tikzstyle{myClip}=[clip ];
+            \tikzstyle{myClip2}=[clip];
           \fi;
           \path [myClip] (#3,#4) to [half plane] (#1,#2);
+          %\path [myClip2] (#3,#4) to [conector] (#1,#2);
           %\draw (#3,#4) -- ( #1,#2 );
         }
         % last clip
@@ -116,23 +160,3 @@
 
 \end{document}
 
-% Source: https://tex.stackexchange.com/questions/138668/how-to-draw-and-paint-the-voronoi-regions-of-a-series-of-points-using-tikz
-
-% Some comments on the code :
-% 
-% • Given two points, A and B, the points that are closer to A is a half plane,
-%   delimited by the perpendicular bisector, and containing A.
-% • So to construct the Voronoi cell of A we can take the intersection of all
-%   this half planes when B runs over all other points (different from A).
-% • In the code, taking this intersection is done by clipping big rectangles
-%   that plays the role of "half planes".
-% • I was not able to use \foreach because clipping inside such a loop is not
-%   available outside the loop (\foreach creates a group). So I'm overcoming
-%   this by using \xintFor.
-% 
-    %\draw  (0,0) \foreach \t in {0.1,0.2,...,10}{
-    %  -- ++({sqrt(\t)*700}:2cm)
-    %};
-    %\draw [fill=white] circle [radius=5pt] (0,0) \foreach \t in {1,2,...,\puntosCantidad}{
-    %     ++( { sqrt( \t ) * 700 } : 2cm ) circle [radius=5pt]
-    %};
