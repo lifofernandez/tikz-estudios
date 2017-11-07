@@ -97,32 +97,31 @@
    %\show\puntos
 
 
-    \def\half{5}
-    \def\step{2}
+    \def\half{3}
     \foreach \i [evaluate={\ii=int(\i-1);}] in {-\half,...,\half}{
       \foreach \j [evaluate={\jj=int(\j-1);}] in {-\half,...,\half}{
 
-	\pgfmathsetmacro{\radius}{ .25 + rnd / 4 }
+	\pgfmathsetmacro{\radius}{ .5 + rnd }
 	\pgfmathsetmacro{\angle}{ rand * 180 }
-	\pgfmathsetmacro{\espacio}{ 2 }
+	\pgfmathsetmacro{\espacio}{ 3 }
 
-        \coordinate [shift={(\j*\espacio,\i*\espacio)}] (n-\i-\j) at ( \angle : \radius );
+        \coordinate [shift={( \i*\espacio, \j*\espacio*1.5 )}] (n-\i-\j) at ( \angle : \radius );
 
 	\pgfmathsetmacro{\X}{(\i*\espacio) + \radius * cos(\angle) }
-	\pgfmathsetmacro{\Y}{(\j*\espacio) + \radius * sin(\angle) }
+	\pgfmathsetmacro{\Y}{(\j*\espacio*1.5) + \radius * sin(\angle) }
 	\xdef\puntos{\puntos, (\X,\Y) } 
 
           \ifnum\i> -\half
-            \draw [help lines] (n-\i-\j) -- (n-\ii-\j);
+            \draw (n-\i-\j) -- (n-\ii-\j);
           \fi
           \ifnum\j>-\half
-            \draw [help lines] (n-\i-\j) -- (n-\i-\jj);
+            \draw  (n-\i-\j) -- (n-\i-\jj);
             \ifnum\i>-\half
               \pgfmathparse{int(rnd>.5)}
               \ifnum\pgfmathresult=0
-                \draw [help lines] (n-\i-\j) -- (n-\ii-\jj);
+                \draw (n-\i-\j) -- (n-\ii-\jj);
               \else%
-                \draw [help lines] (n-\ii-\j) -- (n-\i-\jj);
+                \draw (n-\ii-\j) -- (n-\i-\jj);
               \fi%
             \fi
           \fi
@@ -159,10 +158,10 @@
     }
 
     \draw[draw=white,draw=white,line width=4pt] 
-	  ({-\maxX - 20 },{-\maxY - 20 })
+	  ({-\maxX + 20 },{-\maxY + 20 })
 	  rectangle 
 	  ({\maxX - 20	},{\maxY - 20 });
-    \draw[draw=white,draw opacity=.5,line width=1cm] 
+    \draw[draw=white,draw opacity=.5] 
 	  ({-\maxX },{-\maxY }) 
 	  rectangle 
 	  ({\maxX },{\maxY });
