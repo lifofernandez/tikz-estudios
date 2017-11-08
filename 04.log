@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.3)  7 NOV 2017 18:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.3)  7 NOV 2017 19:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**03.tex
-(./03.tex
+**04.tex
+(./04.tex
 LaTeX2e <2017-04-15>
 Babel <3.12> and hyphenation patterns for 84 language(s) loaded.
 (/usr/share/texmf-dist/tex/latex/base/slides.cls
@@ -368,21 +368,21 @@ File: tikzlibrarybackgrounds.code.tex 2013/07/18 v3.0.1a (rcs-revision 1.3)
 LaTeX Warning: Unused global option(s):
     [a3paper].
 
-(./03.aux)
-\openout1 = `03.aux'.
+(./04.aux)
+\openout1 = `04.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/lcmss/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OT1/lcmss/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -5287,23 +5287,23 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 
-Overfull \hbox (0.4pt too wide) in paragraph at lines 172--173
+Overfull \hbox (0.4pt too wide) in paragraph at lines 124--125
 [][] 
  []
 
 [0
 
-] (./03.aux) ) 
+] (./04.aux) ) 
 Here is how much of TeX's memory you used:
- 15336 strings out of 492990
- 307190 string characters out of 6138688
- 879857 words of memory out of 9999999
- 18679 multiletter control sequences out of 15000+600000
+ 15296 strings out of 492990
+ 306465 string characters out of 6138688
+ 879213 words of memory out of 9999999
+ 18639 multiletter control sequences out of 15000+600000
  3942 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,5n,81p,416b,665s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,5n,81p,416b,651s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 03.pdf (1 page, 122704 bytes).
+Output written on 04.pdf (1 page, 122654 bytes).
 PDF statistics:
  11 PDF objects out of 1000 (max. 8388607)
  7 compressed objects within 1 object stream

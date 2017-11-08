@@ -7,19 +7,6 @@
 \usepackage{xinttools} 
 \usepackage{tikz}
 \usetikzlibrary{calc,backgrounds}
-\makeatletter
-\newcommand\store[6][\x]{%
-  % #1 = dummy variable
-  % #2 = variable to store the list
-  % #3 = expression
-  % #4 = expression to store (with \pgfmathresult) and possibly #1
-  % #5 = start point
-  % #6 = end point
-  \gdef\store@temp{\@gobble}%
-  \foreach #1 in {#5,...,#6}{\pgfmathparse{#3}\xdef\store@temp{\store@temp,#4}}%
-  \let#2=\store@temp
-}
-\makeatother
 
 
 % playing role of infinity (should be < .25\maxdimen)
@@ -35,18 +22,9 @@
     }
   },
   half plane/.default={2pt},
-  conector/.style={
-    to path={
-       (\tikztostart)
-    --(\tikztotarget)
-    -- cycle
-    }
-  },
-  conector/.default={2pt}
 }
 
-% random points are in [-\maxX,\maxY]x[-\maxX,\maxY]
-%\def\maxX{ 13.85 }
+
 \def\maxX{ \textwidth  * 0.5 }
 \def\maxY{ \maxX * 1.44  }
 
@@ -69,34 +47,6 @@
     % Posicionar Puntos
     \def\cuenta{1}
     \gdef\puntos{}
-    %\def\putos{}
-    \xintFor* #1 in { \xintSeq {1}{\puntosCantidad} } \do{
-
-      \def\grado{ \cuenta  }
-      \edef\cuenta{\cuenta + \paso}
-
-      \pgfmathsetmacro{\puntoX}{
-        \centro 
-        + ( \radio * cos( \grado ) )
-        + ( rand ) 
-      } 
-
-      % random x in [-.9\maxY,.9\maxY]
-      \pgfmathsetmacro{\puntoY}{ 
-        \centro  
-        + ( \radio * sin( \grado ) ) 
-        + (rand )
-      } 
-
-      % stock the random point
-     % \edef\puntos{\puntos, ( \puntoX, \puntoY )} 
-    }
-
-   %\store[\pepe]{\puntos}{rand}{(\pepe,\pepe)}{-10}{10}
-
-   %\show\puntos
-
-
     \def\half{3}
     \foreach \i [evaluate={\ii=int(\i-1);}] in {-\half,...,\half}{
       \foreach \j [evaluate={\jj=int(\j-1);}] in {-\half,...,\half}{
@@ -111,6 +61,7 @@
 	\pgfmathsetmacro{\Y}{(\j*\espacio*1.5) + \radius * sin(\angle) }
 	\xdef\puntos{\puntos, (\X,\Y) } 
 
+	%\draw [ red,line width=1mm] let \p1 = ($(B)-(A)$) in (A) -- ++(45:({veclen(\x1,\y1)}););
           \ifnum\i> -\half
             \draw (n-\i-\j) -- (n-\ii-\j);
           \fi
@@ -120,14 +71,15 @@
               \pgfmathparse{int(rnd>.5)}
               \ifnum\pgfmathresult=0
                 \draw (n-\i-\j) -- (n-\ii-\jj);
-              \else%
+              \else
                 \draw (n-\ii-\j) -- (n-\i-\jj);
-              \fi%
+              \fi
             \fi
           \fi
     
       }
     }
+
     % draw the points and their cells
     \xintForpair #1#2 in \puntos \do{
       \edef\puntoA{#1,#2}
@@ -140,7 +92,7 @@
           \ifx\puntoA\puntoB\relax 
             \tikzstyle{myClip}=[];
           \else
-            \tikzstyle{myClip}=[clip ];
+            \tikzstyle{myClip}=[clip];
           \fi;
           \path [myClip] (#3,#4) to [half plane] (#1,#2);
         }
@@ -148,7 +100,7 @@
         \clip (-\maxX,-\maxY) rectangle (\maxX,\maxY); 
 
         \pgfmathsetmacro{\randSat}{ rnd }
-        \definecolor{randcolor}{hsb}{ .53, .6, \randSat,  }
+        \definecolor{randcolor}{hsb}{ .35, .6, \randSat,  }
         % fill the cell with random color
         \fill[randcolor, opacity=.8 ] (#1,#2) circle (14*\bigLen); 
         % and draw the point
@@ -170,6 +122,5 @@
 	  \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
 
   \end{tikzpicture}
-
 \end{document}
 
