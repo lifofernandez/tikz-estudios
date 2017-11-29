@@ -25,47 +25,50 @@
 }
 
 
-\def\maxX{ \textwidth  * 0.5 }
+% \dSat}{ rnd }
+\pgfmathsetmacro{\maxX}{ \textwidth  * 0.5 }
 \def\maxY{ \maxX * 1.44  }
-
-
-% number of random points
 \def\puntosCantidad{10} 
-\def\paso{8}
 
-\def\radio{10}
-\def\centro{0}
+
 
 \begin{document}
 
+\typeout{\maxX}
   \begin{tikzpicture}
-    %\draw (-\maxX,0) -- ( \maxX,0 );
-    %\draw (0,-\maxY) -- ( 0,\maxY );
-
     % \pgfmathsetseed{1908}
+    % \pgfmathsetmacro{\randSat}{ rnd }
 
-    % Posicionar Puntos
-    \def\cuenta{1}
+    % Generar Puntos
     \gdef\puntos{}
-    \def\half{3}
-    \foreach \i [evaluate={\ii=int(\i-1);}] in {-\half,...,\half}{
-      \foreach \j [evaluate={\jj=int(\j-1);}] in {-\half,...,\half}{
-
-	\pgfmathsetmacro{\radius}{ .5 + rnd }
-	\pgfmathsetmacro{\angle}{ rand * 180 }
-	\pgfmathsetmacro{\espacio}{ 3 }
-
-        \coordinate [shift={( \i*\espacio, \j*\espacio*1.5 )}] (n-\i-\j) at ( \angle : \radius );
-
-	\pgfmathsetmacro{\X}{(\i*\espacio) + \radius * cos(\angle) }
-	\pgfmathsetmacro{\Y}{(\j*\espacio*1.5) + \radius * sin(\angle) }
-
-	% gurdar puntos para otras grillas
-	\xdef\puntos{\puntos, (\X,\Y) } 
-
-      }
+    \foreach \i in { 0 ,..., \puntosCantidad }{
+	    \pgfmathsetmacro{\X}{ 10 * rand }
+	\pgfmathsetmacro{\Y}{ 10 * rand }
+	\xdef\puntos{\puntos, ( \X, \Y, \i )} 
+	  \fill[ draw=black, fill=black ] ( \X, \Y ) circle ( 2pt )node {\i}; 
     }
-% http://www.geom.uiuc.edu/~samuelp/del_project.html
+    % http://www.geom.uiuc.edu/~samuelp/del_project.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     % draw the points and their cells
 %    \xintForpair #1#2 in \puntos \do{
@@ -96,6 +99,8 @@
 %
 %    }
 
+    % Borde y Marco
+
     \draw[draw=white,draw=white,line width=4pt] 
 	  ({-\maxX + 20 },{-\maxY + 20 })
 	  rectangle 
@@ -104,9 +109,8 @@
 	  ({-\maxX },{-\maxY }) 
 	  rectangle 
 	  ({\maxX },{\maxY });
-
     \pgfresetboundingbox
-	  \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
+    \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
 
   \end{tikzpicture}
 \end{document}
