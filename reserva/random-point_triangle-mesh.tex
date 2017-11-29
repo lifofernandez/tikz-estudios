@@ -1,0 +1,134 @@
+%\documentclass[preview, border=5mm]{standalone}
+\documentclass[a3paper]{slides}
+
+\usepackage[margin=2cm]{geometry}
+
+% for the \xintFor***
+\usepackage{xinttools} 
+\usepackage{tikz}
+\usetikzlibrary{calc,backgrounds}
+
+
+% playing role of infinity (should be < .25\maxdimen)
+\def\bigLen{20cm}
+
+% define the "half plane" to be clipped (#1 = half the distance between cells)
+\tikzset{
+  half plane/.style={
+    to path={
+       ($(\tikztostart)!.5!(\tikztotarget)!#1!(\tikztotarget)!\bigLen!90:(\tikztotarget)$)
+    -- ($(\tikztostart)!.5!(\tikztotarget)!#1!(\tikztotarget)!\bigLen!-90:(\tikztotarget)$)
+    -- ([turn]0,2*\bigLen) -- ([turn]0,2*\bigLen) -- cycle
+    }
+  },
+  half plane/.default={2pt},
+}
+
+
+\def\maxX{ \textwidth  * 0.5 }
+\def\maxY{ \maxX * 1.44  }
+
+
+% number of random points
+\def\puntosCantidad{10} 
+\def\paso{8}
+
+\def\radio{10}
+\def\centro{0}
+
+\begin{document}
+
+  \begin{tikzpicture}
+    %\draw (-\maxX,0) -- ( \maxX,0 );
+    %\draw (0,-\maxY) -- ( 0,\maxY );
+
+    % \pgfmathsetseed{1908}
+
+    % Posicionar Puntos
+    \def\cuenta{1}
+    \gdef\puntos{}
+    \def\half{3}
+    \foreach \i [evaluate={\ii=int(\i-1);}] in {-\half,...,\half}{
+      \foreach \j [evaluate={\jj=int(\j-1);}] in {-\half,...,\half}{
+
+	\pgfmathsetmacro{\radius}{ .5 + rnd }
+	\pgfmathsetmacro{\angle}{ rand * 180 }
+	\pgfmathsetmacro{\espacio}{ 3 }
+
+        \coordinate [shift={( \i*\espacio, \j*\espacio*1.5 )}] (n-\i-\j) at ( \angle : \radius );
+
+	\pgfmathsetmacro{\X}{(\i*\espacio) + \radius * cos(\angle) }
+	\pgfmathsetmacro{\Y}{(\j*\espacio*1.5) + \radius * sin(\angle) }
+
+	% gurdar puntos para otras grillas
+	\xdef\puntos{\puntos, (\X,\Y) } 
+
+	  %\draw [ red,line width=1mm] let \p1 = ($(B)-(A)$) in (A) -- ++(45:({veclen(\x1,\y1)}););
+        \pgfmathsetmacro{\randSat}{ rnd }
+        \definecolor{randcolor}{hsb}{ .35, .6, \randSat,  }
+        \ifnum\i> -\half
+	    \draw (n-\i-\j) -- (n-\ii-\j);
+	    \fill[randcolor, opacity=.8 ](n-\i-\j) circle (20pt); 
+        \fi
+        \ifnum\j>-\half
+           \draw  (n-\i-\j) -- (n-\i-\jj);
+	   \fill[randcolor, opacity=.8 ] (n-\i-\j) circle (20pt); 
+           \ifnum\i>-\half
+             \pgfmathparse{int(rnd>.5)}
+             \ifnum\pgfmathresult=0
+               \draw (n-\i-\j) -- (n-\ii-\jj);
+	       \fill[randcolor, opacity=.8 ] (n-\i-\j) circle (20pt); 
+             \else
+               \draw (n-\ii-\j) -- (n-\i-\jj);
+	       \fill[randcolor, opacity=.8 ] (n-\i-\j) circle (); 
+             \fi
+         \fi
+        \fi
+    
+      }
+    }
+
+    % draw the points and their cells
+%    \xintForpair #1#2 in \puntos \do{
+%      \edef\puntoA{#1,#2}
+%
+%      \begin{scope}
+%        \xintForpair \#3#4 in \puntos \do{
+%          \edef\puntoB{#3,#4}
+%
+%          % check if (#1,#2) == (#3,#4) 
+%          \ifx\puntoA\puntoB\relax 
+%            \tikzstyle{myClip}=[];
+%          \else
+%            \tikzstyle{myClip}=[clip];
+%          \fi;
+%          \path [myClip] (#3,#4) to [half plane] (#1,#2);
+%        }
+%        % last clip
+%        \clip (-\maxX,-\maxY) rectangle (\maxX,\maxY); 
+%
+%        \pgfmathsetmacro{\randSat}{ rnd }
+%        \definecolor{randcolor}{hsb}{ .35, .6, \randSat,  }
+%        % fill the cell with random color
+%        \fill[randcolor, opacity=.8 ] (#1,#2) circle (14*\bigLen); 
+%        % and draw the point
+%        \fill[draw=white,fill=white] (#1,#2) circle (2pt); 
+%      \end{scope}
+%
+%    }
+
+    \draw[draw=white,draw=white,line width=4pt] 
+	  ({-\maxX + 20 },{-\maxY + 20 })
+	  rectangle 
+	  ({\maxX - 20	},{\maxY - 20 });
+    \draw[draw=white,draw opacity=.5,line width=1cm] 
+	  ({-\maxX },{-\maxY }) 
+	  rectangle 
+	  ({\maxX },{\maxY });
+
+    \pgfresetboundingbox
+	  \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
+
+  \end{tikzpicture}
+\end{document}
+
