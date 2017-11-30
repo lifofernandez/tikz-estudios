@@ -25,16 +25,14 @@
 }
 
 
-% \dSat}{ rnd }
-\pgfmathsetmacro{\maxX}{ \textwidth  * 0.5 }
-\def\maxY{ \maxX * 1.44  }
+\pgfmathsetmacro{\maxX}{ \textwidth }
+\def\maxY{ \maxX * 2 }
 \def\puntosCantidad{10} 
 
 
 
 \begin{document}
 
-\typeout{\maxX}
   \begin{tikzpicture}
     % \pgfmathsetseed{1908}
     % \pgfmathsetmacro{\randSat}{ rnd }
@@ -42,15 +40,17 @@
     % Generar Puntos
     \gdef\puntos{}
     \foreach \i in { 0 ,..., \puntosCantidad }{
-	    \pgfmathsetmacro{\X}{ 10 * rand }
+        \pgfmathsetmacro{\X}{ 10 * rand }
 	\pgfmathsetmacro{\Y}{ 10 * rand }
-	\xdef\puntos{\puntos, ( \X, \Y, \i )} 
-	  \fill[ draw=black, fill=black ] ( \X, \Y ) circle ( 2pt )node {\i}; 
+	  \xdef\puntos{\puntos,  \X/\Y/\i} 
     }
     % http://www.geom.uiuc.edu/~samuelp/del_project.html
 
 
 
+    \foreach \x/\y/\orden in \puntos{
+	    \fill[ draw=black, fill=black ] (\x,\y) circle ( 2pt ) node {\orden}; 
+    }
 
 
 
@@ -101,16 +101,16 @@
 
     % Borde y Marco
 
-    \draw[draw=white,draw=white,line width=4pt] 
-	  ({-\maxX + 20 },{-\maxY + 20 })
-	  rectangle 
-	  ({\maxX - 20	},{\maxY - 20 });
-    \draw[draw=white,draw opacity=.5,line width=1cm] 
-	  ({-\maxX },{-\maxY }) 
-	  rectangle 
-	  ({\maxX },{\maxY });
-    \pgfresetboundingbox
-    \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
+%    \draw[draw=white,draw=white,line width=4pt] 
+%	  ({-\maxX + 20 },{-\maxY + 20 })
+%	  rectangle 
+%	  ({\maxX - 20	},{\maxY - 20 });
+%    \draw[draw=white,draw opacity=.5,line width=1cm] 
+%	  ({-\maxX },{-\maxY }) 
+%	  rectangle 
+%	  ({\maxX },{\maxY });
+%    \pgfresetboundingbox
+%    \draw[draw=white] (-\maxX,-\maxY) rectangle (\maxX,\maxY );
 
   \end{tikzpicture}
 \end{document}

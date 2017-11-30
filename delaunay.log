@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.23)  29 NOV 2017 18:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2017.11.23)  30 NOV 2017 19:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -371,18 +371,18 @@ LaTeX Warning: Unused global option(s):
 (./delaunay.aux)
 \openout1 = `delaunay.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OT1/lcmss/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/lcmss/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -483,49 +483,23 @@ G,.JBIG2,.JB2,.eps]
 (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
-))
-365.61792
-! Dimension too large.
-\pgfsys@typesetpicturebox ...}\ht #1=\pgf@picmaxy 
-                                                  \wd #1=\pgf@picmaxx \dp #1...
-l.115   \end{tikzpicture}
-                         
-? q^^[
-OK, entering \batchmode...
-! Dimension too large.
-\pgfsys@typesetpicturebox ... \wd #1=\pgf@picmaxx 
-                                                  \dp #1=0pt\leavevmode \pgf...
-l.115   \end{tikzpicture}
-                         
-I can't work with sizes bigger than about 19 feet.
-Continue and I'll use the largest value I can.
+)) [0
 
-
-Overfull \hbox (15652.76414pt too wide) in paragraph at lines 115--116
-[][] 
- []
-
- [0
-
-]
-Overfull \vbox (15302.79524pt too high) has occurred while \output is active []
-
-
- [0{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./delaunay.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./delaunay.aux) ) 
 Here is how much of TeX's memory you used:
- 12645 strings out of 492985
- 252728 string characters out of 6138637
- 290498 words of memory out of 9999999
- 15992 multiletter control sequences out of 15000+600000
+ 12607 strings out of 492985
+ 251865 string characters out of 6138637
+ 290495 words of memory out of 9999999
+ 15954 multiletter control sequences out of 15000+600000
  3942 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,6n,54p,422b,539s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr
-/share/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcmss8.pfb>
-Output written on delaunay.pdf (2 pages, 11670 bytes).
+ 55i,6n,54p,422b,531s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/sh
+are/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcmss8.pfb>
+Output written on delaunay.pdf (1 page, 11332 bytes).
 PDF statistics:
- 18 PDF objects out of 1000 (max. 8388607)
- 12 compressed objects within 1 object stream
+ 15 PDF objects out of 1000 (max. 8388607)
+ 10 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
