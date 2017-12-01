@@ -8,6 +8,11 @@
 \usepackage{tikz}
 \usetikzlibrary{calc,backgrounds}
 
+%sort
+\usepackage{arrayjobx}
+\usepackage{multido}
+\usepackage{forest}
+
 
 % playing role of infinity (should be < .25\maxdimen)
 \def\bigLen{20cm}
@@ -25,13 +30,90 @@
 }
 
 
+
+
+
+\makeatletter
+% This is based ond the "code 4" of
+% https://tex.stackexchange.com/a/273084/4686,
+%
+% modified to handle pairs (a, b) (c,d)(e, f) (g,h) etc...
+%
+% acts expandably. Lexicographic order.
+
+\makeatletter
+
+% Here we define the comparison macro for pairs (a,b)
+% We assume decimal numbers acceptable to \ifdim tests
+
+\long\def\xintdothis #1#2\xintorthat #3{\fi #1}%
+\let\xintorthat \@firstofone
+
+\long\def\@thirdoffour  #1#2#3#4{#3}%
+\long\def\@fourthoffour #1#2#3#4{#4}%
+
+\def\IfFirstPairIsGreaterTF #1#2{\@IfFirstPairIsGreaterTF #1,#2,}%
+
+\def\@IfFirstPairIsGreaterTF #1,#2,#3,#4,{%
+    \ifdim #1\p@=#3\p@
+       \xintdothis{%
+         \ifdim #2\p@>#4\p@\expandafter\@firstoftwo
+         \else\expandafter\@secondoftwo\fi}\fi
+    \ifdim #1\p@>#3\p@\expandafter\@thirdoffour
+                      \else\expandafter\@fourthoffour\fi
+    \xintorthat{}%
+}%
+
+% not needed for numerical inputs
+% \catcode`! 3
+% \catcode`? 3
+
+% Here there is a very strange \romannumeral0\romannumeral0, this is
+% due to some convoluted scheme to avoid double spaces or no spaces
+% in between coordinate pairs. Trust me.
+\def\QSpairs {\romannumeral0\romannumeral0\qspairs }%
+% first we check if empty list
+\def\qspairs   #1{\expandafter\qspairs@a\romannumeral-`0#1(!)(?)}%
+\def\qspairs@a #1(#2{\ifx!#2\expandafter\qspairs@abort\else
+                        \expandafter\qspairs@b\fi (#2}%
+\edef\qspairs@abort #1(?){\space\space}%
+%
+% we check if empty of single and if not pick up the first as Pivot:
+\def\qspairs@b #1(#2)#3(#4){\ifx?#4\xintdothis\qspairs@empty\fi
+                   \ifx!#4\xintdothis\qspairs@single\fi
+                   \xintorthat \qspairs@separate {}{}{#2}(#4)}%
+\def\qspairs@empty  #1(?){ }%
+\edef\qspairs@single #1#2#3#4(?){(#3)}%
+\def\qspairs@separate #1#2#3#4(#5){%
+    \ifx!#5\expandafter\qspairs@separate@done\fi
+    \IfFirstPairIsGreaterTF {#5}{#3}%
+          \qspairs@separate@appendtogreater
+          \qspairs@separate@appendtosmaller {#5}{#1}{#2}{#3}
+}%
+%
+\def\qspairs@separate@appendtogreater #1#2{\qspairs@separate {#2 (#1)}}%
+\def\qspairs@separate@appendtosmaller #1#2#3{\qspairs@separate {#2}{#3 (#1)}}%
+%
+\def\qspairs@separate@done\IfFirstPairIsGreaterTF #1#2%
+    \qspairs@separate@appendtogreater
+    \qspairs@separate@appendtosmaller #3#4#5#6(?)%
+{%
+    \expandafter\qspairs@f\expandafter
+     {\romannumeral0\qspairs@b #4(!)(?)}{\qspairs@b #5(!)(?)}{ (#2)}%
+}%
+%
+\def\qspairs@f #1#2#3{#2#3#1}%
+%
+% \catcode`! 12
+% \catcode`? 12
+
+\makeatother
+
+\begin{document}
+
 \pgfmathsetmacro{\maxX}{ \textwidth }
 \def\maxY{ \maxX * 2 }
 \def\puntosCantidad{10} 
-
-
-
-\begin{document}
 
   \begin{tikzpicture}
     % \pgfmathsetseed{1908}
@@ -41,18 +123,24 @@
     \gdef\puntos{}
     \foreach \i in { 0 ,..., \puntosCantidad }{
         \pgfmathsetmacro{\X}{ 10 * rand }
-	\pgfmathsetmacro{\Y}{ 10 * rand }
-	  \xdef\puntos{\puntos,  \X/\Y/\i} 
+	\pgfmathsetmacro{\Y}{ 1.4 * 10 * rand }
+	  %\xdef\puntos{\puntos,  \X/\Y/\i} 
+	  \xdef\puntos{\puntos(\X,\Y),} 
     }
+
     % http://www.geom.uiuc.edu/~samuelp/del_project.html
 
 
+    % Sort points by its X value
+    
+	  \message{UNsorted: \puntos}
+	  \gdef\pps{\QSpairs{\puntos}}
+	  \message{SORTED: \pps}
 
-    \foreach \x/\y/\orden in \puntos{
-	    \fill[ draw=black, fill=black ] (\x,\y) circle ( 2pt ) node {\orden}; 
+    \foreach \p in \pps{
+        %\draw (\p) circle ( 2pt ) node {iii}; 
+        \message{p: \p}
     }
-
-
 
 
 
